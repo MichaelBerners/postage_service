@@ -2,6 +2,7 @@ package ru.berners.postage_service.service;
 
 
 import ru.berners.postage_service.domain.entity.PostOffice;
+import ru.berners.postage_service.domain.entity.Postage;
 import ru.berners.postage_service.domain.entity.PostageStatus;
 import ru.berners.postage_service.domain.request.PostageRequest;
 import ru.berners.postage_service.domain.response.PostageMovementsResponse;
@@ -13,12 +14,13 @@ public interface PostageService {
 
     PostageResponse create(PostageRequest postageRequest);
 
+    Postage read(Long id);
+
     PostageResponse updateStatus(Long id, PostageStatus postageStatus);
 
-    List<PostageMovementsResponse> readHistoryMovements(String index);
+    List<PostageMovementsResponse> readHistoryMovements(Long id);
 
-    void departureFromThePostOffice(PostOffice postOffice);
-    void arrivalFromThePostOffice(PostOffice postOffice);
+
 
 
 }

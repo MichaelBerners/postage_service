@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "postages")
@@ -27,5 +29,7 @@ public class Postage {
     @Enumerated(EnumType.STRING)
     @Column(name = "postage_status")
     private PostageStatus postageStatus;
+    @OneToMany(mappedBy = "postage")
+    private List<PostageMovements> postageMovements;
 
 }

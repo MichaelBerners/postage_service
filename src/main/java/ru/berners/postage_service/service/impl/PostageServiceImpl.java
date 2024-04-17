@@ -1,17 +1,13 @@
 package ru.berners.postage_service.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.berners.postage_service.domain.entity.PostOffice;
-import ru.berners.postage_service.domain.entity.Postage;
-import ru.berners.postage_service.domain.entity.PostageStatus;
-import ru.berners.postage_service.domain.entity.PostageType;
+import ru.berners.postage_service.domain.entity.*;
 import ru.berners.postage_service.domain.repository.PostageRepository;
 import ru.berners.postage_service.domain.request.PostageRequest;
-import ru.berners.postage_service.domain.response.PostOfficeResponse;
 import ru.berners.postage_service.domain.response.PostageMovementsResponse;
 import ru.berners.postage_service.domain.response.PostageResponse;
-import ru.berners.postage_service.service.PostOfficeService;
 import ru.berners.postage_service.service.PostageMovementsService;
 import ru.berners.postage_service.service.PostageService;
 
@@ -23,7 +19,7 @@ public class PostageServiceImpl implements PostageService {
 
     private final PostageRepository postageRepository;
     private final PostageMovementsService postageMovementsService;
-    private final PostOfficeService postOfficeService;
+    @Transactional
     @Override
     public PostageResponse create(PostageRequest postageRequest) {
         Postage postage = new Postage();
@@ -33,20 +29,21 @@ public class PostageServiceImpl implements PostageService {
         postage.setRecipientIndex(postageRequest.getRecipientIndex());
         postage.setRecipientAddress(postageRequest.getRecipientAddress());
         postage.setPostageStatus(PostageStatus.REGISTERED);
-        Postage save = postageRepository.save(postage);
-
-        PostOffice postOffice = postOfficeService.read(postage.getSenderIndex());
-
-
-        postageMovementsService.create(postOffice ,postage);
+        Postage savePostage = postageRepository.save(postage);
+        postageMovementsService.createRegistration(savePostage.getSenderIndex(), savePostage);
 
 
         return null;
     }
 
     @Override
+    public Postage read(Long id) {
+        return postageRepository.findById(id).orElseThrow(() -> new RuntimeException());
+    }
+
+    @Override
     public PostageResponse updateStatus(Long id, PostageStatus postageStatus) {
-        Postage postage = postageRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        Postage postage = read(id);
         postage.setPostageStatus(postageStatus);
         postageRepository.save(postage);
         return null;
@@ -54,18 +51,12 @@ public class PostageServiceImpl implements PostageService {
     }
 
     @Override
-    public List<PostageMovementsResponse> readHistoryMovements(String index) {
+    public List<PostageMovementsResponse> readHistoryMovements(Long id) {
+        Postage postage = postageRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        List<PostageMovements> postageMovements = postage.getPostageMovements();
+
         return null;
     }
 
-    @Override
-    public void departureFromThePostOffice(PostOffice postOffice) {
 
-
-    }
-
-    @Override
-    public void arrivalFromThePostOffice(PostOffice postOffice) {
-
-    }
 }

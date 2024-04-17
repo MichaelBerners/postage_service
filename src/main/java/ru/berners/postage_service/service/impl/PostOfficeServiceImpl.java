@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.berners.postage_service.domain.entity.PostOffice;
 import ru.berners.postage_service.domain.repository.PostOfficeRepository;
-import ru.berners.postage_service.domain.request.PostOfficeRequest;
 import ru.berners.postage_service.domain.response.PostOfficeResponse;
 import ru.berners.postage_service.service.PostOfficeService;
 
@@ -24,8 +23,5 @@ public class PostOfficeServiceImpl implements PostOfficeService {
 
     }
 
-    @Override
-    public PostOfficeResponse update(PostOfficeRequest postOfficeRequest) {
-        return null;
-    }
+
 }
