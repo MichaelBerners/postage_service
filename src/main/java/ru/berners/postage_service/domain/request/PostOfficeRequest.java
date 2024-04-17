@@ -4,8 +4,7 @@ import lombok.Data;
 
 @Data
 public class PostOfficeRequest {
-    private String oldIndex;
-    private String newIndex;
+    private String index;
     private String name;
     private String address;
 }

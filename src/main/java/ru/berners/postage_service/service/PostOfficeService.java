@@ -7,7 +7,7 @@ import ru.berners.postage_service.domain.response.PostOfficeResponse;
 
 public interface PostOfficeService {
 
-    PostOfficeResponse create();
+    PostOfficeResponse create(PostOfficeRequest postOfficeRequest);
     PostOffice read(String index);
 
 

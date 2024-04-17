@@ -3,7 +3,9 @@ package ru.berners.postage_service.service.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.berners.postage_service.domain.entity.PostOffice;
+import ru.berners.postage_service.domain.mapper.PostOfficeRespMapper;
 import ru.berners.postage_service.domain.repository.PostOfficeRepository;
+import ru.berners.postage_service.domain.request.PostOfficeRequest;
 import ru.berners.postage_service.domain.response.PostOfficeResponse;
 import ru.berners.postage_service.service.PostOfficeService;
 
@@ -12,9 +14,18 @@ import ru.berners.postage_service.service.PostOfficeService;
 public class PostOfficeServiceImpl implements PostOfficeService {
 
     private final PostOfficeRepository postOfficeRepository;
+    private final PostOfficeRespMapper postOfficeRespMapper;
+
     @Override
-    public PostOfficeResponse create() {
-        return null;
+    public PostOfficeResponse create(PostOfficeRequest postOfficeRequest) {
+        PostOffice postOffice = new PostOffice();
+        postOffice.setIndex(postOfficeRequest.getIndex());
+        postOffice.setName(postOfficeRequest.getName());
+        postOffice.setName(postOfficeRequest.getAddress());
+        PostOffice save = postOfficeRepository.save(postOffice);
+        PostOfficeResponse result = postOfficeRespMapper.toPostOfficeResp(save);
+
+        return result;
     }
 
     @Override
