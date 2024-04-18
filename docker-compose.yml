@@ -1,0 +1,12 @@
+version: "3.1"
+
+services:
+  postgres:
+    image: postgres:9.6.14
+    ports:
+      - "5431:5432"
+
+    environment:
+      - POSTGRES_DB=postag_bd
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=111
