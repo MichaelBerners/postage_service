@@ -10,9 +10,9 @@ import ru.berners.postage_service.domain.entity.Postage;
 @Data
 public class PostageMovementsRequest {
     @NotEmpty
-    @Schema(description = "индекс почтового отделения", example = "236728")
+    @Schema(description = "индекс почтового отделения", example = "236040")
     private String indexPostOffice;
     @NotNull
-    @Schema(description = "идентификатор почтового отправления", example = "67")
+    @Schema(description = "идентификатор почтового отправления", example = "1")
     private Long postageId;
 }

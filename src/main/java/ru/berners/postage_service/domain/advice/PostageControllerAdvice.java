@@ -4,10 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.berners.postage_service.domain.exception.PostOfficeNotFound;
 import ru.berners.postage_service.domain.exception.PostageMovementException;
 import ru.berners.postage_service.domain.exception.PostageNotFoundException;
 
+@RestControllerAdvice
 public class PostageControllerAdvice {
     @ExceptionHandler(PostageMovementException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -32,5 +34,4 @@ public class PostageControllerAdvice {
     public String notValid(MethodArgumentNotValidException e) {
         return "Not valid";
     }
-
 }

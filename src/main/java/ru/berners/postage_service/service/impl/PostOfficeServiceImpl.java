@@ -1,15 +1,17 @@
 package ru.berners.postage_service.service.impl;
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.berners.postage_service.domain.entity.PostOffice;
 import ru.berners.postage_service.domain.exception.PostOfficeNotFound;
+import ru.berners.postage_service.domain.exception.PostageAlreadyExistsException;
 import ru.berners.postage_service.domain.mapper.PostOfficeRespMapper;
 import ru.berners.postage_service.domain.repository.PostOfficeRepository;
 import ru.berners.postage_service.domain.request.PostOfficeRequest;
 import ru.berners.postage_service.domain.response.PostOfficeResponse;
 import ru.berners.postage_service.service.PostOfficeService;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -20,21 +22,24 @@ public class PostOfficeServiceImpl implements PostOfficeService {
 
     @Override
     public PostOfficeResponse create(PostOfficeRequest postOfficeRequest) {
+        final Optional<PostOffice> existingByIndex = postOfficeRepository.findByIndex(postOfficeRequest.getIndex());
+
+        if(existingByIndex.isPresent()) {
+            throw new PostageAlreadyExistsException();
+        }
+
         PostOffice postOffice = new PostOffice();
         postOffice.setIndex(postOfficeRequest.getIndex());
         postOffice.setName(postOfficeRequest.getName());
-        postOffice.setName(postOfficeRequest.getAddress());
+        postOffice.setAddress(postOfficeRequest.getAddress());
         PostOffice save = postOfficeRepository.save(postOffice);
-        PostOfficeResponse result = postOfficeRespMapper.toPostOfficeResp(save);
 
-        return result;
+        return postOfficeRespMapper.toPostOfficeResp(save);
     }
 
     @Override
     public PostOffice read(String index) {
-        return postOfficeRepository.findPostOfficesByIndex(index).orElseThrow(() -> new PostOfficeNotFound());
 
+        return postOfficeRepository.findByIndex(index).orElseThrow(() -> new PostOfficeNotFound());
     }
-
-
 }

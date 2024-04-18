@@ -21,7 +21,7 @@ public class Postage {
     @Column(name = "postage_type")
     private PostageType postageType;
     @Column(name = "sender_index")
-    private String senderIndex; //?
+    private String senderIndex;
     @Column(name = "recipient_index")
     private String recipientIndex;
     @Column(name = "recipient_address")

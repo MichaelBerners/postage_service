@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface PostOfficeRepository extends JpaRepository<PostOffice, Long> {
 
-    Optional<PostOffice> findPostOfficesByIndex(String index);
+    Optional<PostOffice> findByIndex(String index);
 }

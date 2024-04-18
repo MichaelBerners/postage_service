@@ -11,7 +11,8 @@ public interface PostageMovementsRespMapper {
 
     @Mappings({
             @Mapping(target = "postOfficeIndex", source = "postageMovements.postOffice.index"),
-            @Mapping(target = "postageId", source = "postageMovements.postage.id")
+            @Mapping(target = "postageId", source = "postageMovements.postage.id"),
+            @Mapping(target = "status", source = "postageMovementStatus")
     })
     PostageMovementsResponse toPostageMovementsResp(PostageMovements postageMovements);
 }

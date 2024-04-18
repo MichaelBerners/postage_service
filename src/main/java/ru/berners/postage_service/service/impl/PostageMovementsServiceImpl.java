@@ -25,7 +25,6 @@ public class PostageMovementsServiceImpl implements PostageMovementsService {
     private final PostageService postageService;
     private final PostageMovementsRespMapper postageMovementsRespMapper;
 
-
     @Override
     public PostageMovementsResponse createRegistration(PostageMovementsRequest postageMovementsRequest) {
         String indexPostOffice = postageMovementsRequest.getIndexPostOffice();
@@ -41,11 +40,10 @@ public class PostageMovementsServiceImpl implements PostageMovementsService {
             postageMovements.setPostageMovementStatus(PostageMovementStatus.ARRIVED_AT_THE_POST_OFFICE);
             postageMovements.setCreatedAt(timestamp);
             PostageMovements savePostageMovements = postageMovementsRepository.save(postageMovements);
-            PostageMovementsResponse result = postageMovementsRespMapper.toPostageMovementsResp(savePostageMovements);
 
-            return result;
-
+            return postageMovementsRespMapper.toPostageMovementsResp(savePostageMovements);
         }
+
         throw new PostageMovementException();
     }
 
@@ -66,18 +64,16 @@ public class PostageMovementsServiceImpl implements PostageMovementsService {
                 postageService.updateStatus(postageId, PostageStatus.DELIVERED);
                 postageMovements.setPostageMovementStatus(PostageMovementStatus.ARRIVED_AT_THE_POST_OFFICE);
                 PostageMovements saveDelivered = postageMovementsRepository.save(postageMovements);
-                PostageMovementsResponse resultDelivered = postageMovementsRespMapper
-                        .toPostageMovementsResp(saveDelivered);
 
-                return resultDelivered;
+                return postageMovementsRespMapper
+                        .toPostageMovementsResp(saveDelivered);
             }
             postageService.updateStatus(postageId, PostageStatus.INTERMEDIATE_POST_OFFICE);
             postageMovements.setPostageMovementStatus(PostageMovementStatus.ARRIVED_AT_THE_POST_OFFICE);
             PostageMovements saveIntermediatePostOffice = postageMovementsRepository.save(postageMovements);
-            PostageMovementsResponse resultIntermediatePostOffice= postageMovementsRespMapper
-                    .toPostageMovementsResp(saveIntermediatePostOffice);
 
-            return resultIntermediatePostOffice;
+            return postageMovementsRespMapper
+                    .toPostageMovementsResp(saveIntermediatePostOffice);
         }
 
         throw new PostageMovementException();
@@ -109,15 +105,11 @@ public class PostageMovementsServiceImpl implements PostageMovementsService {
             postageService.updateStatus(postageId, PostageStatus.MOVEMENT);
             postageMovements.setPostageMovementStatus(PostageMovementStatus.HAS_LEFT_THE_POST_OFFICE);
             PostageMovements saveMovement = postageMovementsRepository.save(postageMovements);
-            PostageMovementsResponse resultMovement = postageMovementsRespMapper
-                    .toPostageMovementsResp(saveMovement);
 
-            return resultMovement;
+            return postageMovementsRespMapper
+                    .toPostageMovementsResp(saveMovement);
         }
 
         throw new PostageMovementException();
     }
-
-
-
 }
