@@ -10,7 +10,7 @@ import ru.berners.postage_service.domain.response.PostageMovementsResponse;
 public interface PostageMovementsRespMapper {
 
     @Mappings({
-            @Mapping(target = "postOfficeIndex", source = "postageMovements.postOffice.postOfficeIndex"),
+            @Mapping(target = "postOfficeIndex", source = "postageMovements.postOffice.index"),
             @Mapping(target = "postageId", source = "postageMovements.postage.id")
     })
     PostageMovementsResponse toPostageMovementsResp(PostageMovements postageMovements);
