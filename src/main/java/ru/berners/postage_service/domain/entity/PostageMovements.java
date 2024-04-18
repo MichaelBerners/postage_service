@@ -10,8 +10,8 @@ import java.sql.Timestamp;
 @Table(name = "postage_movements")
 public class PostageMovements {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_name")
-    @SequenceGenerator(name = "seq_name", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "postage_movements_id_seq")
+    @SequenceGenerator(name = "postage_movements_id_seq", allocationSize = 1)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "post_office_id")
@@ -22,7 +22,7 @@ public class PostageMovements {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "postage_movement_status")
     private PostageMovementStatus postageMovementStatus;
-    @Column(name = "date_time")
-    private Timestamp dateTime;
+    @Column(name = "created_at")
+    private Timestamp createdAt;
 
 }

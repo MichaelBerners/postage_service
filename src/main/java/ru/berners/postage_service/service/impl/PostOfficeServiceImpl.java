@@ -1,8 +1,10 @@
 package ru.berners.postage_service.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.berners.postage_service.domain.entity.PostOffice;
+import ru.berners.postage_service.domain.exception.PostOfficeNotFound;
 import ru.berners.postage_service.domain.mapper.PostOfficeRespMapper;
 import ru.berners.postage_service.domain.repository.PostOfficeRepository;
 import ru.berners.postage_service.domain.request.PostOfficeRequest;
@@ -30,7 +32,7 @@ public class PostOfficeServiceImpl implements PostOfficeService {
 
     @Override
     public PostOffice read(String index) {
-        return postOfficeRepository.findPostOfficesByIndex(index).orElseThrow(() -> new RuntimeException());
+        return postOfficeRepository.findPostOfficesByIndex(index).orElseThrow(() -> new PostOfficeNotFound());
 
     }
 

@@ -8,8 +8,8 @@ import lombok.Data;
 @Table(name = "post_offices")
 public class PostOffice {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_name")
-    @SequenceGenerator(name = "seq_name", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_offices_id_seq")
+    @SequenceGenerator(name = "post_offices_id_seq", allocationSize = 1)
     private Long id;
     private String index;
     private String name;

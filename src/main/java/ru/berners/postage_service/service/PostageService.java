@@ -16,6 +16,8 @@ public interface PostageService {
 
     Postage read(Long id);
 
+    String readPostageStatus(Long id);
+
     PostageResponse updateStatus(Long id, PostageStatus postageStatus);
 
     List<PostageMovementsResponse> readHistoryMovements(Long id);

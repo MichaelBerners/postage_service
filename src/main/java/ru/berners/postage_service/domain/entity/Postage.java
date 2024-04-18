@@ -12,8 +12,8 @@ import java.util.List;
 public class Postage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_name")
-    @SequenceGenerator(name = "seq_name", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "postages_id_seq")
+    @SequenceGenerator(name = "postages_id_seq", allocationSize = 1)
     private Long id;
     @Column(name = "recipient_name")
     private String recipientName;

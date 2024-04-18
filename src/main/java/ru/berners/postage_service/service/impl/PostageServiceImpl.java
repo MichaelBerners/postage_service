@@ -4,6 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.berners.postage_service.domain.entity.*;
+import ru.berners.postage_service.domain.mapper.PostageMovementsRespMapper;
+import ru.berners.postage_service.domain.mapper.PostageRespMapper;
 import ru.berners.postage_service.domain.repository.PostageRepository;
 import ru.berners.postage_service.domain.request.PostageRequest;
 import ru.berners.postage_service.domain.response.PostageMovementsResponse;
@@ -12,14 +14,16 @@ import ru.berners.postage_service.service.PostageMovementsService;
 import ru.berners.postage_service.service.PostageService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class PostageServiceImpl implements PostageService {
 
     private final PostageRepository postageRepository;
-    private final PostageMovementsService postageMovementsService;
-    @Transactional
+    private final PostageRespMapper postageRespMapper;
+    private final PostageMovementsRespMapper postageMovementsRespMapper;
+
     @Override
     public PostageResponse create(PostageRequest postageRequest) {
         Postage postage = new Postage();
@@ -30,10 +34,9 @@ public class PostageServiceImpl implements PostageService {
         postage.setRecipientAddress(postageRequest.getRecipientAddress());
         postage.setPostageStatus(PostageStatus.REGISTERED);
         Postage savePostage = postageRepository.save(postage);
-        postageMovementsService.createRegistration(savePostage.getSenderIndex(), savePostage);
+        PostageResponse result = postageRespMapper.toPostageResp(savePostage);
 
-
-        return null;
+        return result;
     }
 
     @Override
@@ -42,20 +45,32 @@ public class PostageServiceImpl implements PostageService {
     }
 
     @Override
+    public String readPostageStatus(Long id) {
+        Postage postage = read(id);
+        String result = postage.getPostageStatus().name();
+
+        return result;
+    }
+
+    @Override
     public PostageResponse updateStatus(Long id, PostageStatus postageStatus) {
         Postage postage = read(id);
         postage.setPostageStatus(postageStatus);
-        postageRepository.save(postage);
-        return null;
+        Postage updatePostage = postageRepository.save(postage);
+        PostageResponse result = postageRespMapper.toPostageResp(updatePostage);
 
+        return result;
     }
 
     @Override
     public List<PostageMovementsResponse> readHistoryMovements(Long id) {
         Postage postage = postageRepository.findById(id).orElseThrow(() -> new RuntimeException());
         List<PostageMovements> postageMovements = postage.getPostageMovements();
+        List<PostageMovementsResponse> result = postageMovements.stream()
+                .map($ -> postageMovementsRespMapper.toPostageMovementsResp($))
+                .collect(Collectors.toList());
 
-        return null;
+        return result;
     }
 
 

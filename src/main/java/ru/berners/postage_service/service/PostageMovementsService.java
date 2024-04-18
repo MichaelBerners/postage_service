@@ -12,9 +12,9 @@ import java.util.List;
 public interface PostageMovementsService {
 
 
-    PostageMovementsResponse createRegistration(String indexPostOffice, Postage postage);
-    PostageMovementsResponse createArrival(String indexPostOffice, Long postageId);
-    PostageMovementsResponse createDeparture(String indexPostOffice, Long postageId);
+    PostageMovementsResponse createRegistration(PostageMovementsRequest postageMovementsRequest);
+    PostageMovementsResponse createArrival(PostageMovementsRequest postageMovementsRequest);
+    PostageMovementsResponse createDeparture(PostageMovementsRequest postageMovementsRequest);
 
 
 

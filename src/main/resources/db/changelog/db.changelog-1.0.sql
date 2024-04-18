@@ -1,19 +1,19 @@
 --liquibase formatted sql
 
 --changeset belonogov:1
-create table post_office
+create table post_offices
 (
     id      bigserial,
     constraint post_office_pk primary key (id),
     index   varchar(6)   not null,
     name    varchar(300) not null,
     address varchar(300) not null,
-    constraint unique (index)
+    constraint unique_index unique (index)
 );
---rollback drop table post_office
+--rollback drop table post_offices
 
 --changeset belonogov:2
-create table postage
+create table postages
 (
     id                bigserial,
     constraint postage_pk primary key (id),
@@ -25,7 +25,7 @@ create table postage
     postage_status    varchar(150) not null
 
 );
---rollback drop table postage
+--rollback drop table postages
 
 --changeset belonogov:3
 create
@@ -34,11 +34,11 @@ create
     id                      bigserial,
     constraint postage_movements_pk primary key (id),
     post_office_id          bigint,
-    constraint postage_movements_post_office_fk foreign key (post_office_id) references post_office (id),
+    constraint postage_movements_post_office_fk foreign key (post_office_id) references post_offices (id),
     postage_id              bigint,
-    constraint postage_movements_postage_fk foreign key (postage_id) references postage (id),
+    constraint postage_movements_postage_fk foreign key (postage_id) references postages (id),
     postage_movement_status varchar(150) not null,
-    date_time               timestamp    not null
+    created_at               timestamp without time zone not null
 
 )
 --rollback drop table postage_movements
