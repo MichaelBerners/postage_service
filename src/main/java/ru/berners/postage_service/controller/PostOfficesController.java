@@ -1,7 +1,9 @@
 package ru.berners.postage_service.controller;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.berners.postage_service.domain.request.PostOfficeRequest;
@@ -16,7 +18,7 @@ public class PostOfficesController {
     private final PostOfficeService postOfficeService;
 
     @PostMapping("/create")
-    public PostOfficeResponse create(PostOfficeRequest postOfficeRequest) {
+    public PostOfficeResponse create(@RequestBody @Valid PostOfficeRequest postOfficeRequest) {
 
         return postOfficeService.create(postOfficeRequest);
     }
