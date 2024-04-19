@@ -36,3 +36,5 @@ ___
 -	 Docker
 -	 Swagger
 -    junit, mockito
+
+http://localhost:8070/swagger-ui/index.html
